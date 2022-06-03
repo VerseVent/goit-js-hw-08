@@ -3,19 +3,17 @@ import throttle from 'lodash.throttle';
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
 
-player.on('play', function (e) {
-  console.log(e);
-});
+//Лисенер события изменения времени видео
 
 player.on('timeupdate', throttle(onTimeUpdate, 1000));
 
-player.getVideoTitle().then(function (title) {
-  console.log('title:', title);
-});
+//Ставим видео на тайминг локальной переменной
 
 player.setCurrentTime(localStorage.getItem('videoplayer-current-time'));
 
+// Функция события тика времени видео, которая создаёт/переписывает
+// переменную локального хранилища
+
 function onTimeUpdate(e) {
-  console.log(e);
   localStorage.setItem('videoplayer-current-time', String(e.seconds));
 }

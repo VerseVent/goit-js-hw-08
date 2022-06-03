@@ -4,8 +4,6 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { galleryItems } from './gallery-items.js';
 
-console.log(galleryItems);
-
 const refs = {
   galleryEl: document.querySelector('.gallery'),
 };
@@ -23,7 +21,8 @@ lazyImages.forEach(e => {
   e.addEventListener('load', onImageLoading, { once: true });
 });
 
-console.log(lazyImages);
+//Навешивание модалки лайтбокса на все изображения в галереи
+
 const lightbox = new SimpleLightbox('.gallery a', {
   captionType: 'attr',
   captionsData: 'alt',
@@ -34,15 +33,19 @@ function onImageLoading(event) {
   event.target.classList.add('appear');
 }
 
+//Функция лисенера клика по изображению из галереи
+
 function onGalleryClick(event) {
   event.preventDefault();
   const targetClassName = event.target.classList.value;
 
+  //Проверка на место клика
+
   if (targetClassName !== 'gallery__image') {
-    console.log('???');
     return;
   }
 }
+//Создание всех элементов галереи
 
 function createGalleryItems(galleryItems) {
   return galleryItems
