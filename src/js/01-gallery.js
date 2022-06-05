@@ -8,8 +8,6 @@ const refs = {
   galleryEl: document.querySelector('.gallery'),
 };
 
-refs.galleryEl.addEventListener('click', onGalleryClick);
-
 refs.galleryEl.insertAdjacentHTML(
   'beforeend',
   createGalleryItems(galleryItems)
@@ -21,7 +19,7 @@ lazyImages.forEach(e => {
   e.addEventListener('load', onImageLoading, { once: true });
 });
 
-//Навешивание модалки лайтбокса на все изображения в галереи
+//Навешивание модалки лайтбокса на все изображения в галереи(также обработка кликов)
 
 const lightbox = new SimpleLightbox('.gallery a', {
   captionType: 'attr',
@@ -33,18 +31,6 @@ function onImageLoading(event) {
   event.target.classList.add('appear');
 }
 
-//Функция лисенера клика по изображению из галереи
-
-function onGalleryClick(event) {
-  event.preventDefault();
-  const targetClassName = event.target.classList.value;
-
-  //Проверка на место клика
-
-  if (targetClassName !== 'gallery__image') {
-    return;
-  }
-}
 //Создание всех элементов галереи
 
 function createGalleryItems(galleryItems) {

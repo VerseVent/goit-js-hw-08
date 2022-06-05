@@ -5,36 +5,38 @@ const refs = {
   emailInputEl: document.querySelector('input[name="email"]'),
   textAreaEl: document.querySelector('textarea[name="message"]'),
 };
+let localFormObject = JSON.parse(localStorage.getItem('feedback-form-state'));
+const formObject = {};
+if (localFormObject) {
+  formObject.email = localFormObject.email;
+  formObject.message = localFormObject.message;
+}
+
 refs.formEl.addEventListener('submit', e => {
   e.preventDefault();
   refs.formEl.reset();
-
-  const formObject = {
-    email: localStorage.getItem('email'),
-    message: localStorage.getItem('message'),
-  };
-  console.log(formObject);
-  localStorage.clear();
+  localStorage.removeItem('feedback-form-state');
 });
 
-refs.emailInputEl.addEventListener('input', throttle(onEmailInput, 500));
+refs.formEl.addEventListener('input', throttle(onFormInput, 500));
 
-refs.textAreaEl.addEventListener('input', throttle(onTextAreaInput, 500));
+function onFormInput(e) {
+  const inputName = e.target.getAttribute('name');
+  if (inputName === 'email') {
+    formObject.email = e.target.value;
 
-function onEmailInput(e) {
-  localStorage.setItem('email', e.target.value);
-}
+    localStorage.setItem('feedback-form-state', JSON.stringify(formObject));
+    return;
+  }
+  formObject.message = e.target.value;
 
-function onTextAreaInput(e) {
-  localStorage.setItem('message', e.target.value);
+  localStorage.setItem('feedback-form-state', JSON.stringify(formObject));
 }
 
 function addLocalValuesToFormInputs() {
-  if (localStorage.getItem('email')) {
-    refs.emailInputEl.value = localStorage.getItem('email');
-  }
-  if (localStorage.getItem('message')) {
-    refs.textAreaEl.value = localStorage.getItem('message');
+  if (localFormObject) {
+    refs.emailInputEl.value = localFormObject.email;
+    refs.textAreaEl.value = localFormObject.message;
   }
 }
 
