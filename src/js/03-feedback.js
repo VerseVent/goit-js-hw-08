@@ -15,6 +15,7 @@ if (localFormObject) {
 refs.formEl.addEventListener('submit', e => {
   e.preventDefault();
   refs.formEl.reset();
+  console.log(formObject);
   localStorage.removeItem('feedback-form-state');
 });
 
